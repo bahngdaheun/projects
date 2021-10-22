@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noriteo.delinori.member.mapper.MemberReplyMapper">
+
+    <insert id="insert">
+        insert into reply_nori (mid, gno, reply, replyer)
+        values (#{mid}, #{rno}, #{reply}, #{replyer})
+        <selectKey order="AFTER" resultType="long" keyProperty="rno">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="replyUpdate">
+        update reply_nori set gno = rno where gno is null
+    </update>
+
+    <select id="getListWithMember" resultType="com.noriteo.delinori.member.domain.Reply">
+        select * from reply_nori where mid=#{mid} order by gno asc, rno asc
+    </select>
+
+    <delete id="delete">
+        delete from reply_nori where rno=#{rno}
+    </delete>
+
+    <update id="update">
+        update reply_nori set reply=#{reply}, modDate=now() where rno=#{rno}
+    </update>
+
+</mapper>

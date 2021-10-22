@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noriteo.delinori.notice.mapper.NoticeMapper">
+
+
+    <sql id="search">
+        <if test="type != null">
+            <foreach collection="arr" item="item" separator=" OR " open="WHERE (" close=")"> <!--separator 루프 돌 때 사이에 끼워주는 것.-->
+                <if test="item == 'T'.toString()">  <!--title-->
+                    title like concat('%', #{keyword}, '%')
+                </if>
+                <if test="item == 'C'.toString()">  <!--content-->
+                    content like concat('%', #{keyword}, '%')
+                </if>
+                <if test="item == 'W'.toString()">  <!--writer-->
+                    writer like concat('%', #{keyword}, '%')
+                </if>
+            </foreach>
+        </if>
+    </sql>   <!--sql의 조각-->
+
+
+    <insert id="insert">
+        insert into notice (title,content,writer)
+        values(#{title},#{content},#{writer})
+
+        <selectKey order="AFTER" resultType="long" keyProperty="nno">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+
+    <select id="getList" resultType="com.noriteo.delinori.notice.domain.Notice">
+        select * from notice
+
+        <include refid="search"></include>
+
+        order by nno desc limit #{skip},#{size}   <!--계속 해서 바뀐 값을 넣기위해 #{} 으로 감싸줌-->
+    </select>
+
+
+    <select id="getCount" resultType="int">
+        select count(nno) from notice
+
+        <include refid="search"></include>
+
+    </select>
+
+
+    <resultMap id="noticeMap" type="com.noriteo.delinori.notice.domain.Notice">
+        <id property="nno" column="nno"></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="writer" column="writer"></result>
+        <result property="replyCnt" column="replyCnt"></result>
+        <result property="modDate" column="modDate"></result>
+        <result property="regDate" column="regDate"></result>
+
+        <collection property="attachList" resultMap="attachMap"></collection>
+    </resultMap>
+
+
+    <resultMap id="attachMap" type="com.noriteo.delinori.notice.domain.NoticeAttach">
+        <result property="uuid" column="uuid"></result>
+        <result property="nno" column="nno"></result>
+        <result property="fileName" column="fileName"></result>
+        <result property="path" column="path"></result>
+        <result property="image" column="image"></result>
+    </resultMap>
+
+
+    <select id="select" resultMap="noticeMap">
+        select *
+        from
+            notice notice left join attach_notice ta on notice.nno = ta.nno
+        where notice.nno = #{nno}
+
+    </select>
+
+
+    <delete id="delete" >
+        delete from notice where nno = #{nno}
+    </delete>
+
+
+
+    <update id="updateReplyCnt">
+        update notice set replyCnt = replyCnt + #{num} where nno = #{nno}
+    </update>
+
+    <insert id="insertAttach">
+        insert into attach_notice(uuid,nno,fileName,path,image)
+        values (#{uuid}, #{nno}, #{fileName}, #{path}, #{image})
+    </insert>
+
+    <delete id="deleteAttach">
+        delete from attach_notice where nno = ${nno}
+    </delete>
+
+
+</mapper>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.noriteo.delinori.board.mapper.BoardReplyMapper"><!--namespace : 패키지명이랑 맞춰주기  namespace + id = 풀네임-->
+
+    <insert id="insert">
+        insert into reply_board(bno,replyer,reply)
+        values (#{bno}, #{replyer}, #{reply})
+    </insert>
+
+    <select id="getListWithBoard" resultType="com.noriteo.delinori.board.domain.Reply">
+        select * from reply_board where bno = #{bno} order by rno asc
+    </select>
+
+    <delete id="delete">
+        delete from reply_board where rno=#{rno}
+    </delete>
+
+    <update id="update">
+        update reply_board set reply = #{reply},  modDate = now() where rno = #{rno}
+    </update>
+
+</mapper>

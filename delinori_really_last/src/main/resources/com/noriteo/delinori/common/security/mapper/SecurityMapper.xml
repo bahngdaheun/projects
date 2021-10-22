@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noriteo.delinori.common.security.mapper.SecurityMapper">
+
+    <resultMap id="memberMap" type="com.noriteo.delinori.common.security.domain.SecurityMember">
+        <id property="mid" column="mid"></id>
+        <result property="mname" column="mname"></result>
+        <result property="mpw" column="mpw"></result>
+        <result property="maddress" column="maddress"></result>
+        <result property="memail" column="memail"></result>
+        <result property="mphone" column="mphone"></result>
+        <result property="enabled" column="enabled"></result>
+        <result property="delifile" column="delifile"></result>
+        <result property="show" column="show"></result>
+
+        <collection property="roleList" resultMap="memberRoleMap"></collection>
+    </resultMap>
+
+    <resultMap id="memberRoleMap" type="com.noriteo.delinori.common.security.domain.SecurityMemberRole">
+        <result property="mid" column="mid"></result>
+        <result property="role" column="role"></result>
+    </resultMap>
+
+    <select id="findByMid" resultMap="memberMap">
+        select * from member m inner join member_role mr on m.mid = mr.mid
+        where m.mid=#{mid}
+    </select>
+
+    <select id="getTime" resultType="string">
+        select now()
+    </select>
+
+</mapper>

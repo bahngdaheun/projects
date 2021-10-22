@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noriteo.delinori.saleboard.mapper.SaleBoardMapper">
+
+    <sql id="search">
+        <if test="type != null">
+            <foreach collection="arr" item="item" separator=" OR " open="WHERE(" close=")">
+                <if test="item == 'T'.toString()">
+                    title like concat('%', #{keyword}, '%')
+                </if>
+                <if test="item == 'C'.toString()">
+                    content like concat('%', #{keyword}, '%')
+                </if>
+                <if test="item == 'W'.toString()">
+                    writer like concat('%', #{keyword}, '%')
+                </if>
+            </foreach>
+        </if>
+    </sql>
+
+    <insert id="insert">
+        insert saleboard (title,content,writer)
+        values (#{title},#{content},#{writer})
+        <selectKey order="AFTER" resultType="long" keyProperty="sno">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <select id="getList" resultType="com.noriteo.delinori.saleboard.domain.SaleBoard">
+        select * from saleboard
+
+        <include refid="search"></include>
+
+        order by sno desc limit #{skip}, #{size}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(sno) from saleboard
+
+        <include refid="search"></include>
+    </select>
+
+    <delete id="delete">
+        delete from saleboard where sno = #{sno}
+    </delete>
+
+    <update id="updateReplyCnt">
+        update saleboard set replyCnt = replyCnt + #{num} where sno = #{sno}
+    </update>
+
+    <resultMap id="boardMap" type="com.noriteo.delinori.saleboard.domain.SaleBoard">
+        <id property="sno" column="sno"></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="writer" column="writer"></result>
+        <result property="replyCnt" column="replyCnt"></result>
+        <result property="regDate" column="regDate"></result>
+        <result property="modDate" column="modDate"></result>
+
+        <collection property="attachList" resultMap="attachMap"></collection>
+    </resultMap>
+
+    <resultMap id="attachMap" type="com.noriteo.delinori.saleboard.domain.SaleBoardAttach">
+        <result property="uuid" column="uuid"></result>
+        <result property="sno" column="sno"></result>
+        <result property="fileName" column="fileName"></result>
+        <result property="path" column="path"></result>
+        <result property="image" column="image"></result>
+    </resultMap>
+
+    <select id="select" resultMap="boardMap">
+        select *
+        from
+            saleboard board left join attach_saleboard ta on board.sno = ta.sno
+        where board.sno = #{sno}
+    </select>
+
+    <insert id="insertAttach">
+        insert into attach_saleboard (uuid, sno, fileName, path, image)
+        values (#{uuid}, #{sno}, #{fileName}, #{path}, #{image})
+    </insert>
+
+</mapper>
