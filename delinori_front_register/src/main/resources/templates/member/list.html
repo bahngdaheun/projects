@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+
+<div layout:fragment="content">
+
+    <div class="float-end" >
+        <select id="searchType">
+            <option value="" th:selected="${memberPageRequestDTO.type} == null">-----------</option>
+            <option value="T" th:selected="${memberPageRequestDTO.type} =='T'">제목</option>
+            <option value="C" th:selected="${memberPageRequestDTO.type} =='C'">내용</option>
+            <option value="W" th:selected="${memberPageRequestDTO.type} =='W'">작성자</option>
+            <option value="TC" th:selected="${memberPageRequestDTO.type} == 'TC'">제목/내용</option>
+            <option value="TCW" th:selected="${memberPageRequestDTO.type} == 'TCW'">제목 혹은 내용 혹은 작성자</option>
+        </select>
+        <input type="text" id="keyword"  th:value="${memberPageRequestDTO.keyword}">
+        <button id="searchBtn" class="btn btn-info" onclick="search()">Search</button>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-borderless table-thead-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Bno</th>
+            <th scope="col">Title</th>
+            <th scope="col">Writer</th>
+            <th scope="col">Register Date</th>
+            <th scope="col">Reply Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="memberBoard:${responseDTO.dtoList}">
+            <th scope="row">[[${memberBoard.bno}]]</th>
+            <td><a th:href="|javascript:movePage(${responseDTO.page}, ${memberBoard.bno})|">[[${memberBoard.title}]]</a>
+                [[${memberBoard.replyCount}]]
+            </td>
+            <td>[[${memberBoard.writer}]]</td>
+            <td>[[${#temporals.format(memberBoard.regDate, 'yyyy/MM/dd')}]]</td>
+            <td>[[${memberBoard.replyCnt}]]</td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- End Table -->
+
+</div>

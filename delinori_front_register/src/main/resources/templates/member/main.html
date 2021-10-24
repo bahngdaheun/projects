@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+
+<div layout:fragment="content">
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main" class="overflow-hidden">
+    <!-- Hero -->
+    <div class="position-relative">
+      <div class="container content-space-t-1 content-space-t-md-2 content-space-t-lg-5 content-space-b-2 content-space-b-sm-3 content-space-b-md-4 content-space-b-lg-0 content-space-b-xl-4">
+        <div class="row">
+          <div class="col-lg-5">
+            <!-- Heading -->
+            <div class="mb-5">
+              <h1>딜리노리</h1>
+              <p class="lead">비대면 직거래가 필요하다면? 딜리노리!</p>
+            </div>
+            <!-- End Title & Description -->
+
+            <div class="d-flex align-items-center gap-2 mb-8">
+              <a class="btn btn-primary btn-transition me-2" th:href="@{/./page-login-simple.html}">
+                딜리로 시작하기<i class="bi-chevron-right small ms-1"></i>
+              </a>
+
+              <!-- Fancybox -->
+              <a class="btn btn-outline-primary btn-transition" th:href="@{/https://www.youtube.com/watch?v=d4eDWc8g0e0}" role="button">
+                노리로 시작하기<i class="bi-chevron-right small ms-1"></i>
+              </a>
+              <!-- End Fancybox -->
+            </div>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+
+      <!-- Gallery -->
+      <div class="col-lg-7 position-lg-absolute top-0 end-0 transform-rotate-n40deg">
+        <div class="row gx-3 align-items-end">
+          <div class="col-3 mb-10">
+            <div class="d-grid gap-3">
+              <div data-aos="fade-up">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x472/img6.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="50">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x472/img4.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="100">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x585/img1.jpg}" alt="Image Description">
+              </div>
+            </div>
+          </div>
+          <!-- End Col -->
+
+          <div class="col-3">
+            <div class="d-grid gap-3">
+              <div data-aos="fade-up" data-aos-delay="150">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x472/img1.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="200">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x115/img1.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="250">
+                <img class="img-fluid shadow-primary-lg rounded-2" th:src="@{/assets/img/407x283/img1.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="300">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x472/img5.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="350" data-aos-offset="-50">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x472/img9.jpg}" alt="Image Description">
+              </div>
+            </div>
+          </div>
+          <!-- End Col -->
+
+          <div class="col-3">
+            <div class="d-grid gap-3">
+              <div data-aos="fade-up" data-aos-delay="400">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x472/img2.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="450">
+                <img class="img-fluid shadow-lg rounded-2" th:src="@{/assets/img/407x472/img3.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="500">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x867/img9.jpg}" alt="Image Description">
+              </div>
+            </div>
+          </div>
+          <!-- End Col -->
+
+          <div class="col-3 mb-10">
+            <div class="d-grid gap-3">
+              <div data-aos="fade-up" data-aos-delay="550">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/300x360/img1.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="600">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x535/img1.jpg}" alt="Image Description">
+              </div>
+              <div data-aos="fade-up" data-aos-delay="650">
+                <img class="img-fluid shadow rounded-2" th:src="@{/assets/img/407x115/img1.jpg}" alt="Image Description">
+              </div>
+            </div>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+      <!-- End Gallery -->
+    </div>
+    <!-- End Hero -->
+
+    <!-- Icon Block -->
+    <div class="container content-space-t-lg-3 content-space-b-3 content-space-b-lg-3">
+    </div>
+  </main>
+</div>
